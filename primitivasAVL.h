@@ -29,7 +29,8 @@ void insertar (nodo **p, int x, int *inserta)
 			insertar(&((*p)->der), x, &(*inserta));
 			if ((*p)->der && (*p)->izq)
 			{
-				(*p)->fe ++;
+				if((*p)->fe != 0)
+					(*p)->fe ++;
 				*inserta = 0;
 			}
 			if (*inserta == 1)
@@ -41,7 +42,8 @@ void insertar (nodo **p, int x, int *inserta)
 			insertar(&((*p)->izq), x, &(*inserta));
 			if ((*p)->der && (*p)->izq)
 			{
-				(*p)->fe --;
+				if((*p)->fe != 0)
+					(*p)->fe --;
 				*inserta = 0;
 			}
 			if (*inserta == 1)
@@ -51,7 +53,6 @@ void insertar (nodo **p, int x, int *inserta)
 		else 
 			printf("\n\n Los numeros no se deben repetir!");
 }
-
 
 int buscar(nodo *p, int x)
 {
