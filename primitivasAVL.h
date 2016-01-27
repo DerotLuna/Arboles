@@ -29,7 +29,7 @@ void insertar (nodo **p, int x, int *inserta)
 			insertar(&((*p)->der), x, &(*inserta));
 			if ((*p)->der && (*p)->izq)
 			{
-				(*p)->fe = 0;
+				(*p)->fe ++;
 				*inserta = 0;
 			}
 			if (*inserta == 1)
@@ -41,7 +41,7 @@ void insertar (nodo **p, int x, int *inserta)
 			insertar(&((*p)->izq), x, &(*inserta));
 			if ((*p)->der && (*p)->izq)
 			{
-				(*p)->fe = 0;
+				(*p)->fe --;
 				*inserta = 0;
 			}
 			if (*inserta == 1)
@@ -51,6 +51,7 @@ void insertar (nodo **p, int x, int *inserta)
 		else 
 			printf("\n\n Los numeros no se deben repetir!");
 }
+
 
 int buscar(nodo *p, int x)
 {
@@ -80,13 +81,13 @@ void eliminar(nodo **p, int x, int *inserta)
 {
 	if (*p)
 	{
-		if(((*p)->valor) < x)
+		if(((*p)->valor) < x && ((*p)->der->valor)%2 == 0 && ((*p)->der->fe) == 1)
 		{
 			eliminar(&(*p)->der, x, &(*inserta));
 			if (*inserta == 1)
 				(*p)->fe--;
 		}
-		else if ((*p)->valor > x)
+		else if ((*p)->valor > x && ((*p)->izq->valor)%2 == 0 && ((*p)->izq->fe) == 1)
 		{
 			eliminar(&((*p)->izq), x, &(*inserta));
 			if (*inserta == 1)
@@ -97,13 +98,15 @@ void eliminar(nodo **p, int x, int *inserta)
 			nodo *t = (*p);
 			if((!(t->izq) && !(t)->der))
 				(*p) = NULL;
-			else if(!(t->izq))
+			else if(!(t->izq) && ((*p)->valor)%2 == 0 && ((*p)->fe) == 1)
 				(*p) = t->der;
-			else if (!(t->der))
+			else if (!(t->der) && ((*p)->valor)%2 == 0 && ((*p)->fe) == 1)
 				(*p) = t->izq;
-			else 
+			else if(((*p)->valor)%2 == 0 && ((*p)->fe) == 1)
 				(*p)->valor = MDM(&((*p)->der),&t);
- 			delete t;
+
+			if ((t->valor)%2 == 0 && (t->fe) == 1)
+ 				delete t;
 		}
 	}	
 }
